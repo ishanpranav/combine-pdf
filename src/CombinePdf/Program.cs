@@ -1,7 +1,6 @@
 ﻿using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
 using System.CommandLine;
-using System.Reflection.PortableExecutable;
 
 namespace CombinePdf;
 
@@ -13,7 +12,6 @@ internal static class Program
             name: "--input",
             "-i")
         {
-
             Description = "One or more input file paths (must exist)",
             Required = true,
             AllowMultipleArgumentsPerToken = true
@@ -90,7 +88,7 @@ internal static class Program
         {
             foreach (FileInfo inputFile in inputFiles)
             {
-                PdfDocument inputPdfDocument = PdfReader.Open(inputFile.Name, PdfDocumentOpenMode.Import);
+                PdfDocument inputPdfDocument = PdfReader.Open(inputFile.FullName, PdfDocumentOpenMode.Import);
 
                 document.Version = Math.Max(document.Version, inputPdfDocument.Version);
 
@@ -100,7 +98,7 @@ internal static class Program
                 }
             }
 
-            document.Save(outputFile.Name);
+            document.Save(outputFile.FullName);
         }
     }
 }
